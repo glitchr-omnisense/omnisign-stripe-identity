@@ -26,6 +26,13 @@ everything runs, nothing is really checked.
 [Documentation](docs/index.md): the calls, the options, the checks, the webhooks, the personal
 data a site must not keep, Stripe's terms.
 
+## Usage policy
+
+`policy.json`, read on 2026-11-10 in Stripe's [rate limits](https://docs.stripe.com/rate-limits),
+[Identity's page](https://stripe.com/fr/identity) and [use cases](https://docs.stripe.com/identity/use-cases): 25 requests a
+second, reads at least 10,000 a month, 50 in flight; EUR 1.25 a verification, the first 50 free;
+reselling forbidden; the banned uses in the notes. A 429 holds the gateway's next calls.
+
 ## Responsibility
 
 This package is an independent, unofficial client: it is not affiliated with, endorsed by or

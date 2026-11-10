@@ -1,0 +1,45 @@
+{
+    "$schema": "https://github.com/glitchr-omnisense/contracts/blob/1.x/resources/usage-policy.schema.json",
+    "provider": "stripe-identity",
+    "rateLimits": [
+        {
+            "max": 25,
+            "window": "second",
+            "scope": "key",
+            "note": "Each endpoint: 25 requests a second unless stated; the global limit is 100 a second in live mode, 25 in a sandbox: 25 a second declared over every operation"
+        },
+        {
+            "max": 10000,
+            "window": "month",
+            "scope": "key",
+            "operations": [
+                "fetchVerification",
+                "verificationResult"
+            ],
+            "note": "Read (GET) requests: on average 500 per transaction over 30 days, at least 10,000 a month whatever the transactions: the floor declared"
+        }
+    ],
+    "concurrency": 50,
+    "rights": {
+        "commercial": "allowed",
+        "openSourceRequired": null,
+        "caching": {
+            "permission": "unknown"
+        },
+        "storage": "unknown",
+        "redistribution": "forbidden",
+        "attribution": {
+            "required": false
+        }
+    },
+    "requirements": {
+        "key": true
+    },
+    "provenance": {
+        "terms": "https://docs.stripe.com/identity/use-cases",
+        "policy": "https://docs.stripe.com/rate-limits",
+        "notes": "Price: EUR 1.25 per successful document-and-selfie verification, charged when the user completes it, the first 50 free; ID number search EUR 0.40 (US SSN only); custom pricing above 2,000 checks a month (stripe.com/fr/identity, read 2026-11-10). A 429 carries Stripe-Rate-Limited-Reason (global-rate, endpoint-rate, global-concurrency, endpoint-concurrency, resource-specific); a 429 without it is a lock timeout. Concurrency: 50 requests in flight in live mode. Storage unknown in Stripe's terms; the package's own rules (Terms::mustNotKeep): the session's url and client_secret, the document's and selfie's images, the document's number, expiry, address and the birth date are not kept beyond the check; the outcome may be kept. Redistribution: reselling the verification or its data is a banned use. Other banned uses: HIPAA health data, FCRA purposes (credit, employment, housing, insurance), government or law enforcement, users under 16, sanctioned countries or parties. Stripe keeps biometric identifiers up to one year and images typically seven years: redactVerification() once the purpose is served (some countries, Germany among them, forbid keeping identity images).",
+        "verifiedAt": "2026-11-10",
+        "declaredBy": "maintainer"
+    }
+}

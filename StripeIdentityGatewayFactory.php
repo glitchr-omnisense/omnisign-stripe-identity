@@ -2,6 +2,7 @@
 
 namespace Omnisign\StripeIdentity;
 
+use Omnisense\Contracts\Policy\UsagePolicy;
 use Omnisign\Config;
 use Omnisign\GatewayFactory;
 use Omnisign\Model\Capabilities;
@@ -32,8 +33,16 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 final class StripeIdentityGatewayFactory extends GatewayFactory
 {
+    private static ?UsagePolicy $policy = null;
+
     public function __construct(private readonly ?HttpClientInterface $http = null)
     {
+    }
+
+    /** Its usage policy, as policy.json declares it (read once). */
+    public static function usagePolicy(): UsagePolicy
+    {
+        return self::$policy ??= UsagePolicy::fromFile(__DIR__.'/policy.json');
     }
 
     public static function terms(): Terms
@@ -81,6 +90,7 @@ final class StripeIdentityGatewayFactory extends GatewayFactory
                 selfie: true,
                 liveness: false,
                 terms: self::terms(),
+                policy: self::usagePolicy(),
             ),
             'omnisign.api' => fn (Config $c) => new Api(
                 $this->http ?? HttpClient::create(),
@@ -89,6 +99,7 @@ final class StripeIdentityGatewayFactory extends GatewayFactory
                 \is_string($version = $c->get('api_version')) && '' !== $version ? $version : null,
                 \is_string($secret = $c->get('webhook_secret')) && '' !== $secret ? $secret : null,
                 is_numeric($tolerance = $c->get('tolerance')) ? (int) $tolerance : 300,
+                backoff: $c->backoff(),
             ),
             'omnisign.action.identity_start' => new StartAction(),
             'omnisign.action.identity_fetch' => new FetchAction(),

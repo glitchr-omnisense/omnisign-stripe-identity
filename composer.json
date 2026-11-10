@@ -21,6 +21,7 @@
     ],
     "require": {
         "php": ">=8.2",
+        "omnisense/contracts": "^1.0@dev",
         "omnisense/omnisign": "^1.1@dev",
         "symfony/http-client": "^6.4|^7.0|^8.0"
     },
@@ -38,6 +39,11 @@
     "autoload-dev": {
         "psr-4": {
             "Omnisign\\StripeIdentity\\Tests\\": "Tests/"
+        }
+    },
+    "extra": {
+        "omnisense": {
+            "policy": "policy.json"
         }
     },
     "config": {

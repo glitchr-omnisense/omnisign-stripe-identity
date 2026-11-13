@@ -26,6 +26,14 @@ everything runs, nothing is really checked.
 [Documentation](docs/index.md): the calls, the options, the checks, the webhooks, the personal
 data a site must not keep, Stripe's terms.
 
+## Install
+
+```sh
+composer require omnisign/stripe-identity
+```
+
+It brings the family's core, `omnisense/omnisign`, and `omnisense/contracts` with it. **A Stripe account is needed**, with Identity enabled: its secret key (`sk_test_` for test mode). The tests run on recorded answers.
+
 ## Usage policy
 
 `policy.json`, read on 2026-11-10 in Stripe's [rate limits](https://docs.stripe.com/rate-limits),
